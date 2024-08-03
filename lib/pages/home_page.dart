@@ -50,7 +50,6 @@ class MyHomePageState extends State<MyHomePage> {
       'priceText': '150',
       'smallname': 'cheese',
     },
-    // يمكنك إضافة المزيد من العناصر هنا
   ];
 
   @override
