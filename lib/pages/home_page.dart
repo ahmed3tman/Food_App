@@ -1,7 +1,14 @@
+// ignore_for_file: library_private_types_in_public_api, non_constant_identifier_names, avoid_types_as_parameter_names
+
 import 'package:flutter/material.dart';
-import 'package:my_new_app/pages/first_page.dart';
-import 'package:my_new_app/pages/second_pade.dart';
+import 'package:my_new_app/pages/fav_page.dart';
+import 'package:provider/provider.dart';
+
 import 'package:my_new_app/tempelets/temp.dart';
+import 'package:my_new_app/provider/my_provider.dart';
+
+import '../provider/my_sec_provider.dart';
+import 'car_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -56,7 +63,6 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(197, 255, 255, 255),
-      //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       body: ListView(
         children: [
           Column(
@@ -114,327 +120,232 @@ class MyHomePageState extends State<MyHomePage> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(top: 10, left: 20),
-                    height: 55,
-                    width: 280,
+                    height: 45,
+                    width: 300,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         color: Colors.white),
                     child: TextFormField(
-                      cursorHeight: 20,
-                      cursorWidth: 3,
+                      cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: const BorderSide(
-                                color: Color.fromARGB(131, 255, 255, 255),
-                                width: 2)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            borderSide: const BorderSide(
-                                color: Color.fromARGB(131, 255, 255, 255),
-                                width: 2)),
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: ("Search"),
-                        labelStyle: const TextStyle(
-                            color: Color.fromARGB(128, 192, 22, 10)),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Color.fromARGB(255, 192, 22, 10),
-                        ),
-                      ),
+                          border: InputBorder.none,
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: "Search",
+                          hintStyle: TextStyle(color: Colors.grey.shade500)),
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10, left: 10, right: 20),
-                    height: 55,
-                    width: 55,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 192, 22, 10),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: IconButton(
-                        highlightColor: const Color.fromARGB(68, 255, 255, 255),
-                        hoverColor: const Color.fromARGB(255, 161, 13, 2),
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.tune,
-                          color: Colors.white,
-                        )),
-                  ),
+                      margin: const EdgeInsets.only(top: 10, right: 20),
+                      height: 45,
+                      width: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: const Color.fromARGB(255, 192, 22, 10),
+                      ),
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.line_weight_outlined,
+                            color: Colors.white,
+                          ))),
                 ],
               ),
-              Container(
-                alignment: Alignment.center,
-                height: 50,
-                margin: const EdgeInsets.only(
-                  top: 20,
-                  left: 20,
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
+              const SizedBox(height: 30),
+              Column(
+                children: [
+                  Row(
                     children: [
-                      MaterialButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(200)),
-                        color: Colors.white,
-                        height: 50,
-                        minWidth: 100,
-                        hoverColor: const Color.fromARGB(255, 192, 22, 10),
-                        child: const Text(
-                          "All",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(200)),
-                        color: Colors.white,
-                        height: 50,
-                        minWidth: 100,
-                        hoverColor: const Color.fromARGB(255, 192, 22, 10),
-                        child: const Text(
-                          " Pizza ",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(200)),
-                        color: Colors.white,
-                        height: 50,
-                        minWidth: 100,
-                        hoverColor: const Color.fromARGB(255, 192, 22, 10),
-                        child: const Text(
-                          "Burger",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(200)),
-                        color: Colors.white,
-                        height: 50,
-                        minWidth: 100,
-                        hoverColor: const Color.fromARGB(255, 192, 22, 10),
-                        child: const Text(
-                          "Salad",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(200)),
-                        color: Colors.white,
-                        height: 50,
-                        minWidth: 100,
-                        hoverColor: const Color.fromARGB(255, 192, 22, 10),
-                        child: const Text(
-                          "Cheese",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
+                      Container(
+                          margin: const EdgeInsets.only(left: 20),
+                          child: const Text(
+                            "Your Choice",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700),
+                          )),
                     ],
                   ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 10, left: 20),
-                    child: const Text(
-                      "Popular Food",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                    margin: const EdgeInsets.only(top: 10),
+                    height: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: orders.length,
+                      itemBuilder: (context, index) {
+                        return OrderCard(
+                          image: orders[index]['image']!,
+                          nametext: orders[index]['nametext']!,
+                          priceText: orders[index]['priceText']!,
+                          smallname: orders[index]['smallname']!,
+                        );
+                      },
                     ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 10, right: 10),
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "See All ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 192, 22, 10),
-                          ),
-                        )),
                   ),
                 ],
               ),
-              Container(
-                height: 200,
-                width: double.infinity,
-                margin: const EdgeInsets.only(top: 5),
-                child: ListView.builder(
-                  itemCount: orders.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    final order = orders[index];
-                    return OrderCard(
-                      image: order['image']!,
-                      nametext: order['nametext']!,
-                      priceText: order['priceText']!,
-                      smallname: order['smallname']!,
-                    );
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const SizedBox(height: 10),
+              Column(
                 children: [
+                  Row(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.only(left: 20),
+                          child: const Text(
+                            "Extras",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700),
+                          )),
+                    ],
+                  ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10, left: 20),
-                    child: const Text(
-                      "Nearest",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                    margin: const EdgeInsets.only(top: 10),
+                    height: 200,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: orders.length,
+                      reverse: true,
+                      itemBuilder: (context, index) {
+                        return OrderCard(
+                          image: orders[index]['image']!,
+                          nametext: orders[index]['nametext']!,
+                          priceText: orders[index]['priceText']!,
+                          smallname: orders[index]['smallname']!,
+                        );
+                      },
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 10, right: 10),
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "See All ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 192, 22, 10),
-                          ),
-                        )),
-                  ),
                 ],
-              ),
-              Container(
-                height: 200,
-                width: double.infinity,
-                margin: const EdgeInsets.only(top: 5),
-                child: ListView.builder(
-                  itemCount: orders.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    final order = orders[index];
-                    return OrderCard(
-                      image: order['image']!,
-                      nametext: order['nametext']!,
-                      priceText: order['priceText']!,
-                      smallname: order['smallname']!,
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Center(
-                child: Text(
-                  "@a7med_3tmvn",
-                  style: TextStyle(
-                    color: Colors.black26,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
               ),
             ],
           ),
         ],
       ),
+      bottomNavigationBar: const FloatingBottomBar(),
+    );
+  }
+}
 
-// bottomNavigationBar ==================================
+class FloatingBottomBar extends StatefulWidget {
+  const FloatingBottomBar({super.key});
 
-      bottomNavigationBar: SizedBox(
-        height: 100, // قم بتعديل الارتفاع حسب احتياجك
-        child: BottomAppBar(
-          color: const Color.fromARGB(255, 192, 22, 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.home,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const FirstPage()),
-                  );
-                },
+  @override
+  _FloatingBottomBarState createState() => _FloatingBottomBarState();
+}
+
+class _FloatingBottomBarState extends State<FloatingBottomBar> {
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 10.0,
+      child: SizedBox(
+        height: 50, // تقليل ارتفاع البار
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              iconSize: 35, // تكبير الأيقونات
+              icon: const Icon(
+                Icons.home,
+                color: Colors.red,
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.favorite_outline,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  // Add your action here
-                },
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    "first", (Route<dynamic> route) => false);
+              },
+            ),
+            IconButton(onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CarPage(),
+                  ));
+            }, icon: Consumer<MyProvider>(
+              builder: (context, myProvider, child) {
+                return Stack(
+                  children: [
+                    const Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 35,
+                      color: Colors.red,
+                    ),
+                    if (myProvider.cartItemCount > 0)
+                      Positioned(
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 18,
+                            minHeight: 18,
+                          ),
+                          child: Text(
+                            '${myProvider.cartItemCount}',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            )),
+            IconButton(onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavPage(),
+                  ));
+            }, icon: Consumer<MySecProvider>(
+              builder: (context, MySecProvider, child) {
+                return Stack(
+                  children: [
+                    const Icon(
+                      Icons.favorite_border,
+                      size: 34,
+                      color: Colors.red,
+                    ),
+                    if (MySecProvider.favItemCount > 0)
+                      Positioned(
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 18,
+                            minHeight: 18,
+                          ),
+                          child: Text(
+                            '${MySecProvider.favItemCount}',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            )),
+            IconButton(
+              iconSize: 35, // تكبير الأيقونات
+              icon: const Icon(
+                Icons.person_outline,
+                color: Colors.red,
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pushNamed("car");
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.person_outline,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SecondPage()),
-                  );
-                },
-              ),
-            ],
-          ),
+              onPressed: () {
+                Navigator.of(context).pushNamed("profile");
+              },
+            ),
+          ],
         ),
       ),
     );

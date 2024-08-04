@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_new_app/pages/first_page.dart';
 import 'package:my_new_app/pages/home_page.dart';
 
-class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -149,11 +148,8 @@ class SecondPage extends StatelessWidget {
                             const EdgeInsets.only(top: 680, left: 20, right: 0),
                         child: MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FirstPage()),
-                            );
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                "first", (Route<dynamic> route) => false);
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(200)),

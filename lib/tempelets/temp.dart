@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/my_sec_provider.dart';
+import '../provider/my_provider.dart';
 
-class OrderCard extends StatefulWidget {
+class OrderCard extends StatelessWidget {
   final String image;
   final String nametext;
   final String priceText;
@@ -15,83 +18,117 @@ class OrderCard extends StatefulWidget {
   });
 
   @override
-  State<OrderCard> createState() => _OrderCardState();
-}
-
-class _OrderCardState extends State<OrderCard> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-      ),
-      width: 130,
-      margin: const EdgeInsets.only(left: 20),
-      child: Stack(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 3, left: 83),
-            child: IconButton(
-                onPressed: () {},
-                highlightColor: Colors.white,
-                hoverColor: const Color.fromARGB(255, 255, 255, 255),
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: Color.fromARGB(255, 192, 22, 10),
-                )),
+    return Consumer<MySecProvider>(
+      builder: (context, mySecProvider, child) {
+        final isFav = mySecProvider.favItems
+            .any((item) => item['smallname'] == smallname);
+
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
           ),
-          Container(
-            height: 110,
-            width: 110,
-            margin: const EdgeInsets.only(top: 20, left: 10),
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(widget.image)),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 0, top: 110),
-            child: ListTile(
-              title: Text(
-                widget.nametext,
-                style:
-                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
-              ),
-              subtitle: Text(
-                widget.smallname,
-                style: const TextStyle(
-                    color: Colors.black38,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 170),
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${widget.priceText} LE",
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w800),
+          width: 130,
+          margin: const EdgeInsets.only(left: 20),
+          child: Stack(
+            children: [
+              // صورة المنتج
+              Container(
+                height: 110,
+                width: 110,
+                margin: const EdgeInsets.only(top: 20, left: 10),
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage(image)),
                 ),
-              ],
-            ),
+              ),
+
+              // اسم المنتج وتفاصيله
+              Positioned(
+                top: 110,
+                left: 0,
+                child: SizedBox(
+                  width: 110,
+                  child: ListTile(
+                    title: Text(
+                      nametext,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w800),
+                    ),
+                    subtitle: Text(
+                      smallname,
+                      style: const TextStyle(
+                          color: Colors.black38,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              ),
+
+              // سعر المنتج
+              Positioned(
+                bottom: 12,
+                left: 15,
+                child: Text(
+                  "$priceText LE",
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w800),
+                ),
+              ),
+
+              // أيقونة المفضلة
+              Positioned(
+                top: 10,
+                right: 10,
+                child: GestureDetector(
+                  onTap: () {
+                    mySecProvider.toggleItemInFav({
+                      'image': image,
+                      'nametext': nametext,
+                      'priceText': priceText,
+                      'smallname': smallname,
+                    });
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Icon(
+                      isFav ? Icons.favorite : Icons.favorite_border,
+                      color: isFav ? Colors.red : Colors.grey,
+                      size: 25,
+                    ),
+                  ),
+                ),
+              ),
+
+              // أيقونة الإضافة إلى السلة
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: GestureDetector(
+                  onTap: () {
+                    Provider.of<MyProvider>(context, listen: false)
+                        .addItemToCar({
+                      'image': image,
+                      'nametext': nametext,
+                      'priceText': priceText,
+                      'smallname': smallname,
+                    });
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: const Icon(
+                      Icons.add_box,
+                      size: 22,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 159, left: 85),
-            child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.add_box,
-                  size: 20,
-                  color: Color.fromARGB(255, 192, 22, 10),
-                )),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
