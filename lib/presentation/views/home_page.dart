@@ -1,14 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api, non_constant_identifier_names, avoid_types_as_parameter_names
 
 import 'package:flutter/material.dart';
-import 'package:my_new_app/pages/fav_page.dart';
 import 'package:provider/provider.dart';
 
-import 'package:my_new_app/tempelets/temp.dart';
-import 'package:my_new_app/provider/my_provider.dart';
-
-import '../provider/my_sec_provider.dart';
-import 'car_page.dart';
+import 'package:my_new_app/data/models/item.dart';
+import 'package:my_new_app/presentation/viewmodels/cart_view_model.dart';
+import 'package:my_new_app/presentation/viewmodels/favorites_view_model.dart';
+import 'package:my_new_app/presentation/views/car_page.dart';
+import 'package:my_new_app/presentation/views/fav_page.dart';
+import 'package:my_new_app/presentation/widgets/order_card.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -20,43 +20,49 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  final List<Map<String, String>> orders = [
-    {
-      'image': 'images/purger.png',
-      'nametext': 'Burger',
-      'priceText': '200',
-      'smallname': 'burger',
-    },
-    {
-      'image': 'images/pizza.png',
-      'nametext': 'Pizza',
-      'priceText': '250',
-      'smallname': 'pizza',
-    },
-    {
-      'image': 'images/cheese.png',
-      'nametext': 'Cheese',
-      'priceText': '150',
-      'smallname': 'cheese',
-    },
-    {
-      'image': 'images/purger.png',
-      'nametext': 'Burger',
-      'priceText': '200',
-      'smallname': 'burger',
-    },
-    {
-      'image': 'images/pizza.png',
-      'nametext': 'Pizza',
-      'priceText': '250',
-      'smallname': 'pizza',
-    },
-    {
-      'image': 'images/cheese.png',
-      'nametext': 'Cheese',
-      'priceText': '150',
-      'smallname': 'cheese',
-    },
+  final List<Item> orders = const [
+    Item(
+      id: 'burger',
+      imagePath: 'images/purger.png',
+      name: 'Burger',
+      category: 'Sandwich',
+      price: 200.0,
+    ),
+    Item(
+      id: 'pizza',
+      imagePath: 'images/pizza.png',
+      name: 'Pizza',
+      category: 'Pie',
+      price: 250.0,
+    ),
+    Item(
+      id: 'cheese',
+      imagePath: 'images/cheese.png',
+      name: 'Cheese',
+      category: 'Sandwich',
+      price: 150.0,
+    ),
+    Item(
+      id: 'burger_deluxe',
+      imagePath: 'images/purger.png',
+      name: 'Burger Deluxe',
+      category: 'Sandwich',
+      price: 220.0,
+    ),
+    Item(
+      id: 'pizza_spicy',
+      imagePath: 'images/pizza.png',
+      name: 'Spicy Pizza',
+      category: 'Pie',
+      price: 260.0,
+    ),
+    Item(
+      id: 'cheese_toast',
+      imagePath: 'images/cheese.png',
+      name: 'Cheese Toast',
+      category: 'Snack',
+      price: 155.0,
+    ),
   ];
 
   @override
@@ -172,10 +178,7 @@ class MyHomePageState extends State<MyHomePage> {
                       itemCount: orders.length,
                       itemBuilder: (context, index) {
                         return OrderCard(
-                          image: orders[index]['image']!,
-                          nametext: orders[index]['nametext']!,
-                          priceText: orders[index]['priceText']!,
-                          smallname: orders[index]['smallname']!,
+                          item: orders[index],
                         );
                       },
                     ),
@@ -205,10 +208,7 @@ class MyHomePageState extends State<MyHomePage> {
                       reverse: true,
                       itemBuilder: (context, index) {
                         return OrderCard(
-                          image: orders[index]['image']!,
-                          nametext: orders[index]['nametext']!,
-                          priceText: orders[index]['priceText']!,
-                          smallname: orders[index]['smallname']!,
+                          item: orders[index],
                         );
                       },
                     ),
@@ -259,8 +259,8 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                   MaterialPageRoute(
                     builder: (context) => const CarPage(),
                   ));
-            }, icon: Consumer<MyProvider>(
-              builder: (context, myProvider, child) {
+            }, icon: Consumer<CartViewModel>(
+              builder: (context, cartViewModel, child) {
                 return Stack(
                   children: [
                     const Icon(
@@ -268,7 +268,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                       size: 35,
                       color: Colors.red,
                     ),
-                    if (myProvider.cartItemCount > 0)
+                    if (cartViewModel.cartItemCount > 0)
                       Positioned(
                         child: Container(
                           padding: const EdgeInsets.all(1),
@@ -281,7 +281,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                             minHeight: 18,
                           ),
                           child: Text(
-                            '${myProvider.cartItemCount}',
+                            '${cartViewModel.cartItemCount}',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -300,8 +300,8 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                   MaterialPageRoute(
                     builder: (context) => const FavPage(),
                   ));
-            }, icon: Consumer<MySecProvider>(
-              builder: (context, MySecProvider, child) {
+            }, icon: Consumer<FavoritesViewModel>(
+              builder: (context, favoritesViewModel, child) {
                 return Stack(
                   children: [
                     const Icon(
@@ -309,7 +309,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                       size: 34,
                       color: Colors.red,
                     ),
-                    if (MySecProvider.favItemCount > 0)
+                    if (favoritesViewModel.favItemCount > 0)
                       Positioned(
                         child: Container(
                           padding: const EdgeInsets.all(1),
@@ -322,7 +322,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                             minHeight: 18,
                           ),
                           child: Text(
-                            '${MySecProvider.favItemCount}',
+                            '${favoritesViewModel.favItemCount}',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,

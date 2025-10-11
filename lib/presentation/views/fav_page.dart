@@ -1,53 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:my_new_app/provider/my_provider.dart';
 
-class CarPage extends StatelessWidget {
-  const CarPage({super.key});
+import 'package:my_new_app/data/models/item.dart';
+import 'package:my_new_app/presentation/viewmodels/favorites_view_model.dart';
+
+class FavPage extends StatelessWidget {
+  const FavPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MyProvider>(context);
+    final favoritesViewModel = Provider.of<FavoritesViewModel>(context);
+    final List<Item> items = favoritesViewModel.favItems;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Shopping Car",
+          "My Favorites",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.red,
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            color: Colors.red[50],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Total Price:",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  "${provider.totalPrice} LE",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(8.0),
-              itemCount: provider.cartItems.length,
+              itemCount: items.length,
               itemBuilder: (context, index) {
-                final item = provider.cartItems[index];
+                final Item item = items[index];
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                   elevation: 4.0,
@@ -59,7 +38,7 @@ class CarPage extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
-                        item['image'],
+                        item.imagePath,
                         width: 80, // زيادة حجم الصورة
                         height: 80, // زيادة حجم الصورة
                         fit: BoxFit.fill, // تغيير عرض الصورة لتكون كاملة
@@ -69,7 +48,7 @@ class CarPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${item['priceText']} LE",
+                          "${item.price.toStringAsFixed(2)} LE",
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -79,11 +58,19 @@ class CarPage extends StatelessWidget {
                         const SizedBox(
                             height: 4.0), // مسافة بين السعر واسم المنتج
                         Text(
-                          item['nametext'],
+                          item.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        if (item.category.isNotEmpty)
+                          Text(
+                            item.category,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                            ),
+                          ),
                       ],
                     ),
                     trailing: IconButton(
@@ -92,7 +79,7 @@ class CarPage extends StatelessWidget {
                         color: Colors.red,
                       ),
                       onPressed: () {
-                        provider.removeItemFromCart(item);
+                        favoritesViewModel.toggleItem(item);
                       },
                     ),
                   ),
